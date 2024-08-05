@@ -1,0 +1,11 @@
+[package]
+name = "kmerise"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+rust-htslib = "0.42.0"
+log = "0.4"
+env_logger = "0.11"
+rayon = "1.5"
+zip = "0.6"
