@@ -12,7 +12,7 @@ TODO: add a step in the end to merge the results from the different chromosomes.
   
 # Setup
 * To build it run: `cargo build`
-* To run it execute: `RUST_LOG=info cargo run -- <path to reference genome> <path to reference genome index> <k, e.g. 25> <number of threads to use>`
+* To run it execute: `RUST_LOG=info cargo run -- <path to reference genome> <path to reference genome index> <k, e.g. 25> <number of threads to use> <path/to/output/`
 
-For example: `RUST_LOG=info cargo run -- /Users/zoharetzioni/Downloads/GCF_000001405.40_GRCh38.p14_genomic.fna /Users/zoharetzioni/Downloads/GCF_000001405.40_GRCh38.p14_genomic.fna.fai 25 8`
+For example: `RUST_LOG=info cargo run -- /Users/zoharetzioni/Downloads/GCF_000001405.40_GRCh38.p14_genomic.fna /Users/zoharetzioni/Downloads/GCF_000001405.40_GRCh38.p14_genomic.fna.fai 25 8 /Users/zoharetzioni/Downloads/genome-k-meriser/hg38/` 
 
