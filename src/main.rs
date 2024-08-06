@@ -99,7 +99,7 @@ fn process_chromosome(
     contig_name: &str,
     k: usize,
     output_dir: &str,
-) -> io::Result<HashMap<String, (usize, Vec<usize>)>> {
+) -> io::Result<()> {
     info!("Starting process_chromosome for {}", contig_name);
     let faidx = Faidx::from_path(fasta_path).map_err(|e| io::Error::new(io::ErrorKind::Other, e))?;
     let mut results = HashMap::new();
@@ -167,7 +167,7 @@ fn process_chromosome(
         eprintln!("Error saving results for {}: {:?}", contig_name, e);
     }
     info!("Finished process_chromosome for {}", contig_name);
-    Ok(results)
+    Ok(())
 }
 
 /// Saves k-mer results to a TSV file for a given contig.
@@ -225,18 +225,16 @@ fn main() {
         .expect("Failed to build thread pool");
 
     // Process each chromosome in parallel
-    let results: Vec<HashMap<String, (usize, Vec<usize>)>> = contig_names.into_par_iter().map(|contig_name| {
+    contig_names.into_par_iter().for_each(|contig_name| {
         let fasta_path = fasta_path.clone();
         let fai_index = Arc::clone(&fai_index);
-        let contig_name = contig_name;
         let k = k;
         let output_dir = output_dir.clone();
-
-        process_chromosome(&fasta_path, fai_index, &contig_name, k, &output_dir).unwrap_or_else(|e| {
+    
+        if let Err(e) = process_chromosome(&fasta_path, fai_index, &contig_name, k, &output_dir) {
             eprintln!("Error processing chromosome {}: {:?}", contig_name, e);
-            HashMap::new() // Return an empty HashMap on error
-        })
-    }).collect();
+        }
+    });
 
     info!("Processing completed");
 
